@@ -52,7 +52,7 @@
                                             <constraint firstAttribute="width" secondItem="0VR-g6-DMc" secondAttribute="height" multiplier="2:3" id="WVu-fr-ES6"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг этого фильма меньше, чем 5?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qet-QF-SDK" userLabel="Question Label">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qet-QF-SDK" userLabel="Question Label">
                                         <rect key="frame" x="0.0" y="624.5" width="374" height="99.5"/>
                                         <fontDescription key="fontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="23"/>
                                         <color key="textColor" name="YP White"/>
@@ -112,7 +112,7 @@
                         <outlet property="counterLabel" destination="nQm-yX-Lqt" id="6oc-iQ-FqE"/>
                         <outlet property="imageView" destination="0VR-g6-DMc" id="FTk-zk-ngq"/>
                         <outlet property="noButton" destination="Z5J-Qg-FuJ" id="pyr-e4-HxA"/>
-                        <outlet property="textLabel" destination="nQm-yX-Lqt" id="IwR-hE-Gg8"/>
+                        <outlet property="textLabel" destination="qet-QF-SDK" id="sWZ-xW-bWh"/>
                         <outlet property="yesButton" destination="cyG-3N-rqP" id="bZL-8J-qzq"/>
                     </connections>
                 </viewController>

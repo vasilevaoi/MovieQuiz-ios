@@ -4,9 +4,9 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var noButton: UIButton!
     @IBOutlet private var yesButton: UIButton!
     @IBOutlet private var imageView: UIImageView!
-    @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var textLabel: UILabel!
     
     private var currentQuestionIndex = 0
     private var currentQuestion: QuizQuestion?
@@ -35,6 +35,7 @@ final class MovieQuizViewController: UIViewController {
         self.questionFactory?.requestNextQuestion()
         alertPresenter =  AlertPresenterImpl(viewController: self)
         loadData()
+        activityIndicator.hidesWhenStopped = true
     }
 
     
@@ -48,12 +49,12 @@ final class MovieQuizViewController: UIViewController {
         showAnswerResult(isCorrect: givenAnswer == currentQuestion?.correctAnswer)
     }
     private func showLoadingIndicator(){
-        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     
     private func hideLoadingIndicator() {
         activityIndicator.stopAnimating()
+        
     }
     
     private func loadData() {
@@ -72,6 +73,7 @@ final class MovieQuizViewController: UIViewController {
                 self?.currentQuestionIndex = 0
                 self?.correctAnswers = 0
                 self?.questionFactory?.requestNextQuestion()
+                self?.loadData()
             }
         )
         
@@ -121,7 +123,6 @@ final class MovieQuizViewController: UIViewController {
             currentQuestionIndex += 1
             showLoadingIndicator()
             questionFactory?.requestNextQuestion()
-            loadData()
         }
     }
     
@@ -138,7 +139,6 @@ final class MovieQuizViewController: UIViewController {
                 self?.currentQuestionIndex = 0
                 self?.correctAnswers = 0
                 self?.questionFactory?.requestNextQuestion()
-                self?.loadData()
             }
         )
         
@@ -169,11 +169,11 @@ final class MovieQuizViewController: UIViewController {
 
 extension MovieQuizViewController: QuestionFactoryDelegate {
     
-    func didReceiveNextQuestion(question: QuizQuestion?) {
+    func didReceiveNextQuestion(question: QuizQuestion) {
         hideLoadingIndicator()
         
         self.currentQuestion = question
-        let viewModel = self.convert(model: question!)
+        let viewModel = self.convert(model: question)
         self.show(quiz: viewModel)
     }
     
