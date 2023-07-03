@@ -19,7 +19,7 @@ protocol QuestionFactory{
     func loadData()
 }
 
-final class QuestionFactoryImpl {
+final class QuestionFactoryImpl: QuestionFactory {
     
     private let moviesLoader: MoviesLoading
     private weak var delegate: QuestionFactoryDelegate?
@@ -29,9 +29,6 @@ final class QuestionFactoryImpl {
         self.moviesLoader = moviesLoader
         self.delegate = delegate
     }
-}
-
-extension QuestionFactoryImpl: QuestionFactory {
     
     func requestNextQuestion() {
         DispatchQueue.global().async { [weak self] in

@@ -21,11 +21,10 @@ final class MovieQuizViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         questionFactory = QuestionFactoryImpl(moviesLoader: MoviesLoader(), delegate: self)
         statisticService = StatisticServiceImpl()
         
-    
         noButton.layer.masksToBounds=true
         noButton.layer.cornerRadius = 15
         yesButton.layer.masksToBounds=true
@@ -34,6 +33,8 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.cornerRadius = 20
         
         self.questionFactory?.requestNextQuestion()
+        alertPresenter =  AlertPresenterImpl(viewController: self)
+        loadData()
     }
 
     
@@ -55,8 +56,13 @@ final class MovieQuizViewController: UIViewController {
         activityIndicator.stopAnimating()
     }
     
+    private func loadData() {
+        showLoadingIndicator()
+        questionFactory?.loadData()
+    }
+    
     private func showNetworkError(message: String){
-        hideLoadingIndicator()
+        showLoadingIndicator()
         
         let alertModel = AlertModel(
             title: "Ошибка",
@@ -108,16 +114,20 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func showNextQuestionOrResults() {
+        
         if currentQuestionIndex == questionsCount - 1 {
             showFinalResults()
         } else {
             currentQuestionIndex += 1
             showLoadingIndicator()
             questionFactory?.requestNextQuestion()
+            loadData()
         }
     }
     
     private func showFinalResults() {
+        hideLoadingIndicator()
+        
         statisticService?.store(correct: correctAnswers, total: questionsCount)
         
         let alertModel = AlertModel(
@@ -128,14 +138,17 @@ final class MovieQuizViewController: UIViewController {
                 self?.currentQuestionIndex = 0
                 self?.correctAnswers = 0
                 self?.questionFactory?.requestNextQuestion()
+                self?.loadData()
             }
         )
+        
         
         alertPresenter?.show(alertModel: alertModel)
     }
     
     private func makeResultMassage() -> String {
-
+        hideLoadingIndicator()
+        
         guard let statisticService = statisticService, let bestGame = statisticService.bestGame else {
             assertionFailure("error massage")
             return ""
@@ -155,6 +168,7 @@ final class MovieQuizViewController: UIViewController {
 }
 
 extension MovieQuizViewController: QuestionFactoryDelegate {
+    
     func didReceiveNextQuestion(question: QuizQuestion?) {
         hideLoadingIndicator()
         
