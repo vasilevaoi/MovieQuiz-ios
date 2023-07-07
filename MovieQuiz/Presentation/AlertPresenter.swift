@@ -5,7 +5,6 @@
 //  Created by Olga Vasileva on 18.06.2023.
 //
 
-import Foundation
 import UIKit
 
 protocol AlertPresenter {
